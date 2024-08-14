@@ -32,28 +32,34 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: onTabTapped,
-        type: BottomNavigationBarType.shifting,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
-        iconSize: 25,
-        backgroundColor: Colors.white,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        elevation: 3,
-        currentIndex: currentIndex,
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.globe), label: 'World'),
-          BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.sportscourt_fill), label: 'Sports'),
-          BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.lab_flask_solid), label: 'Science')
-        ],
-      ),
-      body: _childeren[currentIndex],
-    ));
+          appBar: AppBar(
+            actions: [
+              IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+            ],
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            onTap: onTabTapped,
+            type: BottomNavigationBarType.shifting,
+            selectedItemColor: Colors.black,
+            unselectedItemColor: Colors.grey,
+            iconSize: 25,
+            backgroundColor: Colors.white,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            elevation: 3,
+            currentIndex: currentIndex,
+            items: const [
+              BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.globe), label: 'World'),
+              BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.sportscourt_fill), label: 'Sports'),
+              BottomNavigationBarItem(
+                  icon: Icon(CupertinoIcons.lab_flask_solid), label: 'Science')
+            ],
+          ),
+          body: _childeren[currentIndex],
+        ));
   }
 }
