@@ -14,17 +14,17 @@ class NewsModel {
     if (json['articles'] != null) {
       articles = <Articles>[];
       json['articles'].forEach((v) {
-        articles!.add(Articles.fromJson(v));
+        articles!.add(new Articles.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = status;
-    data['totalResults'] = totalResults;
-    if (articles != null) {
-      data['articles'] = articles!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['totalResults'] = this.totalResults;
+    if (this.articles != null) {
+      data['articles'] = this.articles!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -34,11 +34,11 @@ class Articles {
   Source? source;
   String? author;
   String? title;
-  Null? description;
+  String? description;
   String? url;
-  Null? urlToImage;
+  String? urlToImage;
   String? publishedAt;
-  Null? content;
+  String? content;
 
   Articles(
       {this.source,
@@ -51,7 +51,8 @@ class Articles {
       this.content});
 
   Articles.fromJson(Map<String, dynamic> json) {
-    source = json['source'] != null ? Source.fromJson(json['source']) : null;
+    source =
+        json['source'] != null ? new Source.fromJson(json['source']) : null;
     author = json['author'];
     title = json['title'];
     description = json['description'];
@@ -62,17 +63,17 @@ class Articles {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (source != null) {
-      data['source'] = source!.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.source != null) {
+      data['source'] = this.source!.toJson();
     }
-    data['author'] = author;
-    data['title'] = title;
-    data['description'] = description;
-    data['url'] = url;
-    data['urlToImage'] = urlToImage;
-    data['publishedAt'] = publishedAt;
-    data['content'] = content;
+    data['author'] = this.author;
+    data['title'] = this.title;
+    data['description'] = this.description;
+    data['url'] = this.url;
+    data['urlToImage'] = this.urlToImage;
+    data['publishedAt'] = this.publishedAt;
+    data['content'] = this.content;
     return data;
   }
 }
@@ -89,9 +90,9 @@ class Source {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
     return data;
   }
 }
@@ -106,7 +107,6 @@ class FetchNewsData {
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
       return NewsModel.fromJson(body);
-      print("okay");
     }
     throw Exception('Error');
   }
@@ -117,7 +117,6 @@ class NewsViewModel {
 
   Future<NewsModel> fetchNewsHeadlines() async {
     final response = await _rep.fetchNewsHeadlines();
-    print("okay");
     return response;
   }
 }
