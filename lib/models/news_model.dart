@@ -1,5 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:connectivity_plus/connectivity_plus.dart';
+
+class NetworkService {
+  Future<bool> hasNetworkConnection() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    return connectivityResult != ConnectivityResult.none;
+  }
+}
 
 class NewsModel {
   String? status;
@@ -99,13 +107,14 @@ class Source {
 class FetchNewsData {
   Future<NewsModel> fetchNewsHeadlines() async {
     String url =
-        'https://newsapi.org/v2/top-headlines?country=us&apiKey=c5137648dab347eab35d145ebc88e8ad';
+        'http://newsapi.org/v2/top-headlines?country=us&apiKey=c5137648dab347eab35d145ebc88e8ad';
 
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
       return NewsModel.fromJson(body);
+      print("okay");
     }
     throw Exception('Error');
   }
@@ -113,9 +122,21 @@ class FetchNewsData {
 
 class NewsViewModel {
   final _rep = FetchNewsData();
+  final _networkService = NetworkService();
 
   Future<NewsModel> fetchNewsHeadlines() async {
-    final response = await _rep.fetchNewsHeadlines();
-    return response;
+    try {
+      bool isConnected = await _networkService.hasNetworkConnection();
+      if (!isConnected) {
+        throw Exception('No internet connection');
+      }
+
+      final response = await _rep.fetchNewsHeadlines();
+      print("News fetched successfully");
+      return response;
+    } catch (e) {
+      print("Failed to fetch news: $e");
+      rethrow;
+    }
   }
 }

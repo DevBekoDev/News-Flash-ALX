@@ -37,7 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.6
   news_api_flutter_package: ^1.2.0
   json_annotation: ^4.9.0
+  flutter_spinkit: ^5.2.1
   http: ^1.2.2
+  connectivity_plus: ^6.0.5
 
 dev_dependencies:
   flutter_test:

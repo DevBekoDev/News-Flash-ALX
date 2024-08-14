@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:news_flash/models/news_model.dart';
 import 'package:news_flash/screens/science_news.dart';
 import 'package:news_flash/screens/sports_news.dart';
 import 'package:news_flash/screens/world_news.dart';
@@ -22,10 +23,13 @@ class _MyAppState extends State<MyApp> {
     const SportsNews(),
     const ScienceNews()
   ];
+
+  NewsViewModel newsViewModel = NewsViewModel();
   int currentIndex = 0;
   void onTabTapped(int index) {
     setState(() {
       currentIndex = index;
+      newsViewModel.fetchNewsHeadlines();
     });
   }
 
