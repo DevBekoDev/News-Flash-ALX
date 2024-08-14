@@ -97,9 +97,9 @@ class Source {
 }
 
 class FetchNewsData {
-  Future<NewsModel> fetchNewsChannelHealinesApi() async {
+  Future<NewsModel> fetchNewsHeadlines() async {
     String url =
-        'https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=YOUR_API_KEY';
+        'https://newsapi.org/v2/top-headlines?country=us&apiKey=c5137648dab347eab35d145ebc88e8ad';
 
     final response = await http.get(Uri.parse(url));
 
@@ -114,8 +114,8 @@ class FetchNewsData {
 class NewsViewModel {
   final _rep = FetchNewsData();
 
-  Future<NewsModel> fetchNewsChannelHeadlinesApi() async {
-    final response = await _rep.fetchNewsChannelHealinesApi();
+  Future<NewsModel> fetchNewsHeadlines() async {
+    final response = await _rep.fetchNewsHeadlines();
     return response;
   }
 }
