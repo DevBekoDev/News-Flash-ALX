@@ -1,13 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:connectivity_plus/connectivity_plus.dart';
-
-class NetworkService {
-  Future<bool> hasNetworkConnection() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    return connectivityResult != ConnectivityResult.none;
-  }
-}
 
 class NewsModel {
   String? status;
@@ -107,7 +99,7 @@ class Source {
 class FetchNewsData {
   Future<NewsModel> fetchNewsHeadlines() async {
     String url =
-        'http://newsapi.org/v2/top-headlines?country=us&apiKey=c5137648dab347eab35d145ebc88e8ad';
+        'https://newsapi.org/v2/top-headlines?country=us&apiKey=c5137648dab347eab35d145ebc88e8ad';
 
     final response = await http.get(Uri.parse(url));
 
@@ -122,21 +114,10 @@ class FetchNewsData {
 
 class NewsViewModel {
   final _rep = FetchNewsData();
-  final _networkService = NetworkService();
 
   Future<NewsModel> fetchNewsHeadlines() async {
-    try {
-      bool isConnected = await _networkService.hasNetworkConnection();
-      if (!isConnected) {
-        throw Exception('No internet connection');
-      }
-
-      final response = await _rep.fetchNewsHeadlines();
-      print("News fetched successfully");
-      return response;
-    } catch (e) {
-      print("Failed to fetch news: $e");
-      rethrow;
-    }
+    final response = await _rep.fetchNewsHeadlines();
+    print("okay");
+    return response;
   }
 }

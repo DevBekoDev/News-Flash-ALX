@@ -17,6 +17,5 @@ class _SportsNewsState extends State<SportsNews> {
             style: TextStyle(fontSize: 45, color: Colors.amber)),
       ),
     );
-    ;
   }
 }

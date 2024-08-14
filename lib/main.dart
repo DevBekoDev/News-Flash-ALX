@@ -29,7 +29,6 @@ class _MyAppState extends State<MyApp> {
   void onTabTapped(int index) {
     setState(() {
       currentIndex = index;
-      newsViewModel.fetchNewsHeadlines();
     });
   }
 
