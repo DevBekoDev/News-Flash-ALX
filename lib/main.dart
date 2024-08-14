@@ -46,11 +46,11 @@ class _MyAppState extends State<MyApp> {
         currentIndex: currentIndex,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.work_outlined), label: 'World'),
+              icon: Icon(CupertinoIcons.globe), label: 'World'),
           BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.sportscourt), label: 'Graphs'),
+              icon: Icon(CupertinoIcons.sportscourt_fill), label: 'Sports'),
           BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.t_bubble), label: 'Graphs')
+              icon: Icon(CupertinoIcons.lab_flask_solid), label: 'Science')
         ],
       ),
       body: _childeren[currentIndex],
