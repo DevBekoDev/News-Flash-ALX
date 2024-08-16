@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:news_flash/screens/world_news.dart';
 
 class NewsDetails extends StatefulWidget {
   String data;
-  NewsDetails({super.key, required this.data});
+  String title;
+  NewsDetails({super.key, required this.data, required this.title});
+
   @override
   State<NewsDetails> createState() => _NewsDetailsState();
 }
 
 class _NewsDetailsState extends State<NewsDetails> {
-  final webViewController = WebViewController()
-    ..setJavaScriptMode(JavaScriptMode.disabled)
-    ..loadRequest(Uri.parse(data));
+  late WebViewController webViewController;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Test"),
+        title: const Text('Details News'),
       ),
-      body: WebViewWidget(controller: webViewController),
+      body: WebView(
+        initialUrl: widget.data,
+        javascriptMode: JavascriptMode.disabled,
+        onWebViewCreated: (WebViewController webViewController) {
+          webViewController = webViewController;
+        },
+      ),
     );
   }
 }

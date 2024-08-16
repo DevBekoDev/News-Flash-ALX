@@ -106,6 +106,10 @@ class FetchNewsData {
 
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
+      List<dynamic> filteredArticles = body['articles'].where((article) {
+        return article['urlToImage'] != null;
+      }).toList();
+      body['articles'] = filteredArticles;
       return NewsModel.fromJson(body);
     }
     throw Exception('Error');
