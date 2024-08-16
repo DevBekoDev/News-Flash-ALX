@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:news_flash/models/news_model.dart';
+import 'package:news_flash/screens/news_details.dart';
 
 class WorldNews extends StatefulWidget {
   const WorldNews({super.key});
@@ -56,53 +57,64 @@ class _WorldNewsState extends State<WorldNews> {
                   padding: const EdgeInsets.all(15.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(45),
-                    child: Container(
-                      color: Colors.grey,
-                      height: height * .33,
-                      width: width * .9,
-                      padding: EdgeInsets.symmetric(horizontal: height * 0.02),
-                      child: Column(children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(30),
-                              bottomRight: Radius.circular(30),
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)),
-                          child: CachedNetworkImage(
-                            imageUrl: snapshot.data!.articles![index].urlToImage
-                                .toString(),
-                            fit: BoxFit.fill,
-                            width: width * .9,
-                            placeholder: (context, url) => Container(
-                              child: const SpinKitCircle(
-                                color: Colors.amber,
-                                size: 50,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) {
+                          return NewsDetails(
+                              data: snapshot.data!.articles![index].url
+                                  .toString());
+                        }));
+                      },
+                      child: Container(
+                        color: Colors.grey,
+                        height: height * .33,
+                        width: width * .9,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: height * 0.02),
+                        child: Column(children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(30),
+                                bottomRight: Radius.circular(30),
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)),
+                            child: CachedNetworkImage(
+                              imageUrl: snapshot
+                                  .data!.articles![index].urlToImage
+                                  .toString(),
+                              fit: BoxFit.fill,
+                              width: width * .9,
+                              placeholder: (context, url) => Container(
+                                child: const SpinKitCircle(
+                                  color: Colors.amber,
+                                  size: 50,
+                                ),
                               ),
+                              errorWidget: (context, url, error) => const Icon(
+                                  Icons.error_outline,
+                                  color: Colors.red),
                             ),
-                            errorWidget: (context, url, error) => const Icon(
-                                Icons.error_outline,
-                                color: Colors.red),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          snapshot.data!.articles![index].title.toString(),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(fontSize: 17),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          format.format(dateTime),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(fontSize: 12),
-                        ),
-                      ]),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            snapshot.data!.articles![index].title.toString(),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(fontSize: 17),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            format.format(dateTime),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(fontSize: 12),
+                          ),
+                        ]),
+                      ),
                     ),
                   ),
                 ));
