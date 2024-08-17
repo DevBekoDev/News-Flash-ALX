@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:news_api_flutter_package/model/article.dart';
 import 'package:news_flash/comp/NewsCard.dart';
 
 class NewsList extends StatelessWidget {

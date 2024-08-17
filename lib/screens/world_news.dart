@@ -1,13 +1,10 @@
 import 'dart:convert';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart';
+
 import 'package:news_flash/comp/NewsList.dart';
 import 'package:news_flash/models/news_model.dart';
-import 'package:news_flash/screens/news_details.dart';
 
 class WorldNews extends StatefulWidget {
   const WorldNews({super.key});
