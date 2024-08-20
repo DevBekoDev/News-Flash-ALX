@@ -16,7 +16,7 @@ class SportsNews extends StatefulWidget {
 class _SportsNewsState extends State<SportsNews> {
   Future<NewsModel> fetchNewsHeadlines() async {
     String url =
-        'https://newsapi.org/v2/everything?q=sports&apikey=c5137648dab347eab35d145ebc88e8ad';
+        'https://newsapi.org/v2/everything?q=sports&apikey=647882b0a2314fed9069799f69a42a3a';
 
     final response = await http.get(Uri.parse(url));
 
