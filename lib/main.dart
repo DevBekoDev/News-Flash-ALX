@@ -4,7 +4,9 @@ import 'package:news_flash/models/news_model.dart';
 import 'package:news_flash/screens/home_screen.dart';
 import 'package:news_flash/screens/science_news.dart';
 import 'package:news_flash/screens/search_screen.dart';
+import 'package:news_flash/screens/settings_screen.dart';
 import 'package:news_flash/screens/sports_news.dart';
+import 'package:news_flash/screens/tech_news.dart';
 import 'package:news_flash/screens/world_news.dart';
 
 void main() {
@@ -23,7 +25,9 @@ class _MyAppState extends State<MyApp> {
   final List<Widget> _childeren = [
     const WorldNews(),
     const SportsNews(),
-    const ScienceNews()
+    const ScienceNews(),
+    const TechNews(),
+    const SettingsScreen(),
   ];
 
   NewsViewModel newsViewModel = NewsViewModel();
