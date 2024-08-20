@@ -41,7 +41,7 @@ class NewsCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             if (imageUrl != null) ...[

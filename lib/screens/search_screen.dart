@@ -16,8 +16,8 @@ class _SearchScreenState extends State<SearchScreen> {
   List<dynamic> _searchResults = [];
 
   void _fetchData(String query) async {
-    final url =
-        'https://newsapi.org/v2/everything?q=$query&apikey=647882b0a2314fed9069799f69a42a3a';
+    String apikey = 'ceb3e3f4817a4a009a21265e2caae267';
+    final url = 'https://newsapi.org/v2/everything?q=$query&apikey=$apikey';
 
     final response = await http.get(Uri.parse(url));
 
@@ -67,49 +67,46 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             const SizedBox(height: 12),
             Expanded(
-              child: ListView.builder(
-                itemCount: _searchResults.length,
-                itemBuilder: (context, index) {
-                  if (_searchResults.isNotEmpty) {
-                    return Column(
-                      children: [
-                        ListTile(
-                          title: Text(
-                            _searchResults[index]['title'].toString(),
-                            style: const TextStyle(fontSize: 18),
+                child: _searchResults.isNotEmpty
+                    ? ListView.builder(
+                        itemCount: _searchResults.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              ListTile(
+                                title: Text(
+                                  _searchResults[index]['title'].toString(),
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (_) {
+                                    return NewsDetails(
+                                        data: _searchResults[index]['url'],
+                                        title: _searchResults[index]['title']);
+                                  }));
+                                },
+                              ),
+                              const SizedBox(
+                                width: 430,
+                                child: Divider(
+                                  height: 0,
+                                  thickness: 1,
+                                  color: Colors.black,
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                      )
+                    : const SizedBox(
+                        child: Center(
+                          child: Text(
+                            'Try Something New 😁',
+                            style: TextStyle(fontSize: 24),
                           ),
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (_) {
-                              return NewsDetails(
-                                  data: _searchResults[index]['url'],
-                                  title: _searchResults[index]['title']);
-                            }));
-                          },
                         ),
-                        const Divider(
-                          height: 0,
-                          thickness: 1,
-                          color: Colors.black,
-                        )
-                      ],
-                    );
-                  } else if (_searchResults.isEmpty) {
-                    return const SizedBox(
-                      child: Center(
-                        child: Text('Try Something news 😁'),
-                      ),
-                    );
-                  } else {
-                    return const SizedBox(
-                      child: Center(
-                        child: Text('Something went wrong!!'),
-                      ),
-                    );
-                  }
-                },
-              ),
-            ),
+                      )),
           ],
         ),
       ),
