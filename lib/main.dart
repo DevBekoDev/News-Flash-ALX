@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:news_flash/Auth/screens/login_screen.dart';
 import 'package:news_flash/models/news_model.dart';
 import 'package:news_flash/screens/home_screen.dart';
 import 'package:news_flash/screens/science_news.dart';
@@ -11,7 +12,8 @@ import 'package:news_flash/screens/world_news.dart';
 import 'package:appwrite/appwrite.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -19,6 +21,7 @@ class MyApp extends StatefulWidget {
   final Client client = Client()
       .setEndpoint('https://cloud.appwrite.io/v1')
       .setProject('66c4c619000805580048');
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -46,6 +49,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        debugShowCheckedModeBanner: false, home: HomeScreen());
+        debugShowCheckedModeBanner: false, home: LoginScreen());
   }
 }
