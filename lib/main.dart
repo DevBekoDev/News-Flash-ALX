@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_flash/Auth/screens/login_screen.dart';
+import 'package:news_flash/Auth/screens/signup_screen.dart';
 import 'package:news_flash/models/news_model.dart';
 import 'package:news_flash/screens/home_screen.dart';
 import 'package:news_flash/screens/science_news.dart';
@@ -49,6 +50,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        debugShowCheckedModeBanner: false, home: LoginScreen());
+        debugShowCheckedModeBanner: false, home: SignupScreen());
   }
 }
