@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:news_flash/Auth/screens/login_screen.dart';
-import 'package:news_flash/Auth/screens/signup_screen.dart';
 import 'package:news_flash/models/news_model.dart';
 import 'package:news_flash/screens/science_news.dart';
 import 'package:news_flash/screens/search_screen.dart';

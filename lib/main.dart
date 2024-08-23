@@ -5,11 +5,6 @@ import 'package:news_flash/Auth/screens/login_screen.dart';
 import 'package:news_flash/Auth/screens/signup_screen.dart';
 import 'package:news_flash/models/news_model.dart';
 import 'package:news_flash/screens/home_screen.dart';
-import 'package:news_flash/screens/science_news.dart';
-import 'package:news_flash/screens/settings_screen.dart';
-import 'package:news_flash/screens/sports_news.dart';
-import 'package:news_flash/screens/tech_news.dart';
-import 'package:news_flash/screens/world_news.dart';
 import 'package:appwrite/appwrite.dart';
 import 'package:provider/provider.dart';
 
@@ -30,13 +25,6 @@ class _MyAppState extends State<MyApp> {
   Client client = Client();
 
   // This widget is the root of your application.
-  final List<Widget> _childeren = [
-    const WorldNews(),
-    const SportsNews(),
-    const ScienceNews(),
-    const TechNews(),
-    const SettingsScreen()
-  ];
 
   NewsViewModel newsViewModel = NewsViewModel();
   int currentIndex = 0;

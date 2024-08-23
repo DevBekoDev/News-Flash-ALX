@@ -2,8 +2,6 @@ import 'package:appwrite/appwrite.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_flash/Auth/appwrite/auth_api.dart';
-import 'package:news_flash/Auth/screens/signup_screen.dart';
-import 'package:news_flash/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {

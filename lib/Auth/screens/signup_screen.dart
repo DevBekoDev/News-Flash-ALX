@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_flash/Auth/appwrite/auth_api.dart';
 import 'package:news_flash/Auth/screens/login_screen.dart';
-import 'package:news_flash/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 class SignupScreen extends StatefulWidget {
