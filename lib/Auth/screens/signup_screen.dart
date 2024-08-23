@@ -87,8 +87,6 @@ class _SignupScreenState extends State<SignupScreen> {
         password: _passwordController.text,
       );
       Navigator.pop(context);
-      const snackbar = SnackBar(content: Text('Account created!'));
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
     } on AppwriteException catch (e) {
       Navigator.pop(context);
       showAlert(title: 'Account creation failed', text: e.message.toString());
@@ -118,115 +116,127 @@ class _SignupScreenState extends State<SignupScreen> {
   void _submit() {
     if (_formKey.currentState!.validate()) {
       createAccount();
-      Navigator.pushReplacementNamed(context, '/login');
+
+      // Show SnackBar after successful validation
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Sign up successful! Redirecting to login...'),
+          duration: Duration(seconds: 2), // Show for 2 seconds
+        ),
+      );
+
+      // Delay the navigation to the login page by 2 seconds
+      Future.delayed(const Duration(seconds: 2), () {
+        // Navigate to the login screen (replace with your actual LoginPage route)
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: {
-        // When navigating to the "/second" route, build the SecondScreen widget.
-        '/login': (context) => const LoginScreen(),
-        '/signup': (context) => const SignupScreen(),
-      },
-      home: Scaffold(
-        appBar: AppBar(),
-        body: Padding(
-          padding: const EdgeInsets.only(top: 150, right: 40, left: 40),
-          child: Column(children: [
-            Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TextFormField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      labelText: 'Name',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                    validator: _validateName,
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    validator: _validateEmail,
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                    obscureText: true,
-                    validator: _validatePassword,
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: _confirmPasswordController,
-                    decoration: InputDecoration(
-                      labelText: 'Confirm Password',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                    obscureText: true,
-                    validator: _validateConfirmPassword,
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    style: const ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(
-                            Color.fromARGB(255, 199, 193, 174))),
-                    onPressed: _submit,
-                    child: const Text('Sign Up',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+    return Scaffold(
+      appBar: AppBar(),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 150, right: 40, left: 40),
+        child: Column(children: [
+          Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  "Have an account?",
-                  style: TextStyle(fontSize: 18),
+                TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Name',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  validator: _validateName,
                 ),
-                TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/login');
-                    },
-                    child: const Text(
-                      'Sign In',
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: _validateEmail,
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  obscureText: true,
+                  validator: _validatePassword,
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _confirmPasswordController,
+                  decoration: InputDecoration(
+                    labelText: 'Confirm Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  obscureText: true,
+                  validator: _validateConfirmPassword,
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: const ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(
+                          Color.fromARGB(255, 199, 193, 174))),
+                  onPressed: _submit,
+                  child: const Text('Sign Up',
                       style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 124, 113, 77)),
-                    ))
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
+                ),
               ],
-            )
-          ]),
-        ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                "Have an account?",
+                style: TextStyle(fontSize: 18),
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()));
+                  },
+                  child: const Text(
+                    'Sign In',
+                    style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 124, 113, 77)),
+                  ))
+            ],
+          )
+        ]),
       ),
     );
   }
