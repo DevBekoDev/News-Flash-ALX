@@ -53,7 +53,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 250, right: 40, left: 40),
@@ -106,7 +108,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     label: const Text(
                       'Sign In',
-                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],

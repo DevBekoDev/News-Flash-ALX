@@ -5,7 +5,6 @@ import 'package:news_flash/Auth/screens/signup_screen.dart';
 import 'package:news_flash/models/news_model.dart';
 import 'package:news_flash/screens/home_screen.dart';
 import 'package:news_flash/screens/science_news.dart';
-import 'package:news_flash/screens/search_screen.dart';
 import 'package:news_flash/screens/settings_screen.dart';
 import 'package:news_flash/screens/sports_news.dart';
 import 'package:news_flash/screens/tech_news.dart';
@@ -18,10 +17,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({super.key});
-  final Client client = Client()
-      .setEndpoint('https://cloud.appwrite.io/v1')
-      .setProject('66c4c619000805580048');
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -49,7 +45,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        debugShowCheckedModeBanner: false, home: SignupScreen());
+    return MaterialApp(routes: {
+      // When navigating to the "/second" route, build the SecondScreen widget.
+      '/login': (context) => const LoginScreen(),
+      '/signup': (context) => const SignupScreen(),
+      '/home': (context) => const HomeScreen(),
+    }, debugShowCheckedModeBanner: false, home: const SignupScreen());
   }
 }
