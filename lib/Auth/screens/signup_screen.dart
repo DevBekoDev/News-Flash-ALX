@@ -1,7 +1,10 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:news_flash/Auth/appwrite/auth_api.dart';
 import 'package:news_flash/Auth/screens/login_screen.dart';
 import 'package:news_flash/screens/home_screen.dart';
+import 'package:provider/provider.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -61,10 +64,61 @@ class _SignupScreenState extends State<SignupScreen> {
     return null;
   }
 
+//create user
+  createAccount() async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const Dialog(
+            backgroundColor: Colors.transparent,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CircularProgressIndicator(),
+                ]),
+          );
+        });
+    try {
+      final AuthAPI appwrite = context.read<AuthAPI>();
+      await appwrite.createUser(
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      Navigator.pop(context);
+      const snackbar = SnackBar(content: Text('Account created!'));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    } on AppwriteException catch (e) {
+      Navigator.pop(context);
+      showAlert(title: 'Account creation failed', text: e.message.toString());
+    }
+  }
+
+  //show a message if any error accord when creating a user
+  showAlert({required String title, required String text}) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(text),
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Ok'))
+            ],
+          );
+        });
+  }
+
   // Submit function
   void _submit() {
     if (_formKey.currentState!.validate()) {
-      //TODO: bind Appwrite
+      createAccount();
+      Navigator.pushReplacementNamed(context, '/login');
     }
   }
 

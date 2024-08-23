@@ -180,7 +180,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 20,
               ),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, '/signup');
+                  },
                   child: const Text(
                     'Create a New Account',
                     style: TextStyle(

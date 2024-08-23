@@ -52,13 +52,12 @@ class AuthAPI extends ChangeNotifier {
   }
 
   Future<User> createUser(
-      {required String email, required String password}) async {
+      {required String email,
+      required String password,
+      required String name}) async {
     try {
       final user = await account.create(
-          userId: ID.unique(),
-          email: email,
-          password: password,
-          name: 'Abubakr Nasir');
+          userId: ID.unique(), email: email, password: password, name: name);
       return user;
     } finally {
       notifyListeners();
