@@ -48,11 +48,21 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(routes: {
-      // When navigating to the "/second" route, build the SecondScreen widget.
-      '/login': (context) => const LoginScreen(),
-      '/signup': (context) => const SignupScreen(),
-      '/home': (context) => const HomeScreen(),
-    }, debugShowCheckedModeBanner: false, home: const LoginScreen());
+    final value = context.watch<AuthAPI>().status;
+    return MaterialApp(
+        routes: {
+          // When navigating to the "/second" route, build the SecondScreen widget.
+          '/login': (context) => const LoginScreen(),
+          '/signup': (context) => const SignupScreen(),
+          '/home': (context) => const HomeScreen(),
+        },
+        debugShowCheckedModeBanner: false,
+        home: value == AuthStatus.uninitialized
+            ? const Scaffold(
+                body: Center(child: CircularProgressIndicator()),
+              )
+            : value == AuthStatus.authenticated
+                ? const HomeScreen()
+                : const LoginScreen());
   }
 }
