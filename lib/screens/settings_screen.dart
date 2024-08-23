@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_flash/Auth/appwrite/auth_api.dart';
+import 'package:news_flash/Auth/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -81,7 +82,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         WidgetStateProperty.all<Color>(Colors.red)),
                 onPressed: () {
                   signOut();
-                  Navigator.pushReplacementNamed(context, '/login');
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()));
                 },
                 child: const Text(
                   'Log Out',

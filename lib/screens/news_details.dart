@@ -1,4 +1,10 @@
+import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
+import 'package:news_flash/Auth/appwrite/auth_api.dart';
+import 'package:news_flash/Auth/appwrite/database_api.dart';
+import 'package:news_flash/constants/constants.dart';
+import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 // ignore: must_be_immutable
@@ -12,32 +18,148 @@ class NewsDetails extends StatefulWidget {
 }
 
 class _NewsDetailsState extends State<NewsDetails> {
-  // ignore: non_constant_identifier_names
-  IconData not_saved = Icons.bookmark_outline;
-  IconData saved = Icons.bookmark;
-  // ignore: non_constant_identifier_names
-  bool save_button_is_clicked = false;
+  IconData notSavedIcon = Icons.bookmark_outline;
+  IconData savedIcon = Icons.bookmark;
+  late bool articleSaved = false;
   late WebViewController webViewController;
+
+  // Database actions
+  final _database = DatabaseAPI();
+
+  late List<Document>? bookmarks = [];
+  AuthStatus authStatus = AuthStatus.uninitialized;
+
+  @override
+  void initState() {
+    super.initState();
+    final AuthAPI appwrite = context.read<AuthAPI>();
+    authStatus = appwrite.status;
+    loadBookmarks();
+    checkInitialBookmarkStatus();
+  }
+
+  void loadBookmarks() async {
+    try {
+      final value = await _database.getBookmarks();
+      setState(() {
+        bookmarks = value.documents;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void checkInitialBookmarkStatus() async {
+    bool exists = await checkIfTitleExists(widget.title);
+    setState(() {
+      articleSaved = exists;
+    });
+  }
+
+//add the article data to the bookmarks collection
+  Future<void> addBookmark() async {
+    try {
+      await _database.addBookmark(
+        title: widget.title,
+        url: widget.data,
+      );
+      const snackbar = SnackBar(content: Text('Added to Bookmarks!'));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      setState(() {
+        articleSaved = true;
+      });
+      loadBookmarks();
+    } on AppwriteException catch (e) {
+      showAlert(title: 'Error', text: e.message.toString());
+    }
+  }
+
+//delete the article data from the bookmarks collection
+  Future<void> deleteBookmark(String id) async {
+    try {
+      await _database.deleteBookmark(id: id);
+      setState(() {
+        articleSaved = false;
+      });
+      loadBookmarks();
+    } on AppwriteException catch (e) {
+      showAlert(title: 'Error', text: e.message.toString());
+    }
+  }
+
+  void showAlert({required String title, required String text}) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(text),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+//check if article title is already saved in the bookmarks
+  Future<bool> checkIfTitleExists(String title) async {
+    try {
+      final response = await _database.databases.listDocuments(
+        databaseId: APPWRITE_DATABASE_ID,
+        collectionId: COLLECTION_BOOKMARKS_ID,
+        queries: [Query.equal('title', title)],
+      );
+      if (response.documents.isNotEmpty) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Error checking title existence: $e');
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Details News'),
+        title: const Text('News Details'),
         actions: [
           IconButton(
-              onPressed: () {
-                setState(() {
-                  save_button_is_clicked = !save_button_is_clicked;
-                });
-              },
-              icon: Icon((save_button_is_clicked == true) ? saved : not_saved))
+            onPressed: () async {
+              bool exists = await checkIfTitleExists(widget.title);
+              if (exists) {
+                try {
+                  final bookmark = bookmarks!.firstWhere(
+                    (doc) => doc.data['title'] == widget.title,
+                  );
+                  deleteBookmark(bookmark.$id);
+                } catch (e) {
+                  showAlert(
+                    title: 'Error',
+                    text: 'No matching bookmark found to delete.',
+                  );
+                }
+              } else {
+                addBookmark();
+              }
+            },
+            icon: articleSaved ? Icon(savedIcon) : Icon(notSavedIcon),
+          ),
         ],
       ),
       body: WebView(
         initialUrl: widget.data,
         javascriptMode: JavascriptMode.disabled,
         onWebViewCreated: (WebViewController webViewController) {
-          webViewController = webViewController;
+          this.webViewController = webViewController;
         },
       ),
     );

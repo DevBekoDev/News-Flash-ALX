@@ -22,29 +22,30 @@ class DatabaseAPI {
     databases = Databases(client);
   }
 
-  Future<DocumentList> getMessages() {
+  Future<DocumentList> getBookmarks() {
     return databases.listDocuments(
       databaseId: APPWRITE_DATABASE_ID,
-      collectionId: COLLECTION_BOOKMARKS,
+      collectionId: COLLECTION_BOOKMARKS_ID,
     );
   }
 
-  Future<Document> addMessage({required String message}) {
+  Future<Document> addBookmark({required String title, required String url}) {
     return databases.createDocument(
         databaseId: APPWRITE_DATABASE_ID,
-        collectionId: COLLECTION_BOOKMARKS,
+        collectionId: COLLECTION_BOOKMARKS_ID,
         documentId: ID.unique(),
         data: {
-          'text': message,
+          'title': title,
           'date': DateTime.now().toString(),
+          'url': url,
           'user_id': auth.userid
         });
   }
 
-  Future<dynamic> deleteMessage({required String id}) {
+  Future<dynamic> deleteBookmark({required String id}) {
     return databases.deleteDocument(
         databaseId: APPWRITE_DATABASE_ID,
-        collectionId: COLLECTION_BOOKMARKS,
+        collectionId: COLLECTION_BOOKMARKS_ID,
         documentId: id);
   }
 }
