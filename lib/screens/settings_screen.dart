@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news_flash/Auth/appwrite/auth_api.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -8,6 +10,12 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  //sign out method
+  signOut() {
+    final AuthAPI appwrite = context.read<AuthAPI>();
+    appwrite.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -71,8 +79,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 style: ButtonStyle(
                     backgroundColor:
                         WidgetStateProperty.all<Color>(Colors.red)),
-                onPressed: () {},
-                child: Text(
+                onPressed: () {
+                  signOut();
+                  Navigator.pushReplacementNamed(context, '/login');
+                },
+                child: const Text(
                   'Log Out',
                   style: TextStyle(fontSize: 30, color: Colors.white),
                 ))

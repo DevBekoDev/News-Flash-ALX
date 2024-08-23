@@ -92,7 +92,8 @@ class AuthAPI extends ChangeNotifier {
 */
   signOut() async {
     try {
-      await account.deleteSession(sessionId: 'current');
+      //await account.deleteSession(sessionId: 'current');
+      await account.deleteSessions();
       _status = AuthStatus.unauthenticated;
     } finally {
       notifyListeners();
