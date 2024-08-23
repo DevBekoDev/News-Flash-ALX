@@ -114,14 +114,32 @@ class _SignupScreenState extends State<SignupScreen> {
 
   // Submit function
   void _submit() {
+    FocusManager.instance.primaryFocus?.unfocus();
     if (_formKey.currentState!.validate()) {
+      // Dismiss the keyboard
+
+      //create account
       createAccount();
 
       // Show SnackBar after successful validation
+
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Sign up successful! Redirecting to login...'),
-          duration: Duration(seconds: 2), // Show for 2 seconds
+        SnackBar(
+          content: const Text(
+            'Sign up successful! Redirecting to login...',
+            style: TextStyle(color: Colors.black), // Text color
+          ),
+          backgroundColor: Colors.white, // Background color
+          behavior:
+              SnackBarBehavior.floating, // SnackBar floating above content
+          elevation: 6.0, // Adds shadow to the SnackBar
+          duration: const Duration(seconds: 2), // Show for 2 seconds
+          shape: RoundedRectangleBorder(
+            // Rounded corners
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          padding: const EdgeInsets.symmetric(
+              vertical: 20.0, horizontal: 16.0), // Increases height
         ),
       );
 

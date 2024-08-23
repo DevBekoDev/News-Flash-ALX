@@ -91,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // Submit function
   void _submit() {
+    FocusManager.instance.primaryFocus?.unfocus();
     if (_formKey.currentState!.validate()) {
       signIn();
     }
