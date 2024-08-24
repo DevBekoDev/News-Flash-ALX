@@ -18,7 +18,7 @@ class _WorldNewsState extends State<WorldNews> {
   NewsViewModel newsViewModel = NewsViewModel();
   Future<NewsModel> fetchNewsHeadlines() async {
     String url =
-        'https://newsapi.org/v2/everything?q=general&apikey=$NEWS_API_KEY';
+        'https://newsapi.org/v2/everything?q=general&language=$NEWS_LANGUAGE&apikey=$NEWS_API_KEY';
 
     final response = await http.get(Uri.parse(url));
 
