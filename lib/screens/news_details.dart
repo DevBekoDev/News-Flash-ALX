@@ -117,7 +117,7 @@ class _NewsDetailsState extends State<NewsDetails> {
       final response = await _database.databases.listDocuments(
         databaseId: APPWRITE_DATABASE_ID,
         collectionId: COLLECTION_BOOKMARKS_ID,
-        queries: [Query.equal('title', title), Query.equal('userId', userId)],
+        queries: [Query.equal('title', title), Query.equal('user_id', userId)],
       );
       if (response.documents.isNotEmpty) {
         return true;
@@ -138,11 +138,15 @@ class _NewsDetailsState extends State<NewsDetails> {
         actions: [
           IconButton(
             onPressed: () async {
+              final AuthAPI appwrite = context.read<AuthAPI>();
+              final String userId = appwrite.currentUser.$id;
               bool exists = await checkIfTitleExists(widget.title);
               if (exists) {
                 try {
                   final bookmark = bookmarks!.firstWhere(
-                    (doc) => doc.data['title'] == widget.title,
+                    (bookmark) =>
+                        bookmark.data['title'] == widget.title &&
+                        bookmark.data['user_id'] == userId,
                   );
                   deleteBookmark(bookmark.$id);
                 } catch (e) {
