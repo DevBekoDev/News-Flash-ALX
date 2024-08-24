@@ -99,11 +99,23 @@ class AuthAPI extends ChangeNotifier {
     }
   }
 
+  // Fetch user preferences
   Future<Preferences> getUserPreferences() async {
-    return await account.getPrefs();
+    try {
+      return await account.getPrefs();
+    } on AppwriteException catch (e) {
+      print('Error fetching user preferences: ${e.message}');
+      return Preferences(
+          data: {}); // Return empty preferences if there's an error
+    }
   }
 
-  updatePreferences({required String bio}) async {
-    return account.updatePrefs(prefs: {'bio': bio});
+  // Update user preferences
+  Future<void> updatePreferences({required String lang}) async {
+    try {
+      await account.updatePrefs(prefs: {'lang': lang});
+    } on AppwriteException catch (e) {
+      print('Error updating user preferences: ${e.message}');
+    }
   }
 }

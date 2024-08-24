@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_flash/Auth/appwrite/auth_api.dart';
 import 'package:news_flash/Auth/screens/login_screen.dart';
 import 'package:news_flash/screens/bookmarks_screen.dart';
+import 'package:news_flash/screens/news_language.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -63,30 +64,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(
               height: 20,
             ),
-            Container(
-              height: 60,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 199, 193, 174),
-                border:
-                    Border.all(color: const Color.fromARGB(255, 76, 58, 58)),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '🌍',
-                    style: TextStyle(fontSize: 30),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    "Search Language",
-                    style: TextStyle(fontSize: 30),
-                  )
-                ],
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChangeLanguageScreen()));
+              },
+              child: Container(
+                height: 60,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 199, 193, 174),
+                  border:
+                      Border.all(color: const Color.fromARGB(255, 76, 58, 58)),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '🌍',
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      "Search Language",
+                      style: TextStyle(fontSize: 30),
+                    )
+                  ],
+                ),
               ),
             ),
             const SizedBox(
