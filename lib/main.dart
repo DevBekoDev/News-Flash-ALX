@@ -4,6 +4,7 @@ import 'package:news_flash/Auth/appwrite/auth_api.dart';
 import 'package:news_flash/Auth/screens/login_screen.dart';
 import 'package:news_flash/Auth/screens/signup_screen.dart';
 import 'package:news_flash/models/news_model.dart';
+import 'package:news_flash/screens/bookmarks_screen.dart';
 import 'package:news_flash/screens/home_screen.dart';
 import 'package:appwrite/appwrite.dart';
 import 'package:provider/provider.dart';

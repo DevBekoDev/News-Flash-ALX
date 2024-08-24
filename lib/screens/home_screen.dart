@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_flash/models/news_model.dart';
-import 'package:news_flash/screens/science_news.dart';
+import 'package:news_flash/screens/news_category/science_news.dart';
 import 'package:news_flash/screens/search_screen.dart';
 import 'package:news_flash/screens/settings_screen.dart';
-import 'package:news_flash/screens/sports_news.dart';
-import 'package:news_flash/screens/tech_news.dart';
-import 'package:news_flash/screens/world_news.dart';
+import 'package:news_flash/screens/news_category/sports_news.dart';
+import 'package:news_flash/screens/news_category/tech_news.dart';
+import 'package:news_flash/screens/news_category/world_news.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 199, 193, 174),
+      backgroundColor: const Color.fromARGB(255, 237, 234, 223),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 199, 193, 174),
         actions: [

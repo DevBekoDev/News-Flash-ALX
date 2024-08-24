@@ -22,14 +22,22 @@ class DatabaseAPI {
     databases = Databases(client);
   }
 
-  Future<DocumentList> getBookmarks() {
-    return databases.listDocuments(
-      databaseId: APPWRITE_DATABASE_ID,
-      collectionId: COLLECTION_BOOKMARKS_ID,
-    );
+  Future<DocumentList> getBookmarks({required String userId}) async {
+    try {
+      final response = await databases.listDocuments(
+        databaseId: APPWRITE_DATABASE_ID,
+        collectionId: COLLECTION_BOOKMARKS_ID,
+        queries: [Query.equal('userId', userId)], // Filter by userId
+      );
+      return response;
+    } catch (e) {
+      print('Error fetching bookmarks: $e');
+      throw e;
+    }
   }
 
-  Future<Document> addBookmark({required String title, required String url}) {
+  Future<Document> addBookmark(
+      {required String title, required String url, required String userId}) {
     return databases.createDocument(
         databaseId: APPWRITE_DATABASE_ID,
         collectionId: COLLECTION_BOOKMARKS_ID,

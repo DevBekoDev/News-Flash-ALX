@@ -39,8 +39,10 @@ class _NewsDetailsState extends State<NewsDetails> {
   }
 
   void loadBookmarks() async {
+    final AuthAPI appwrite = context.read<AuthAPI>();
+    final String userId = appwrite.currentUser.$id;
     try {
-      final value = await _database.getBookmarks();
+      final value = await _database.getBookmarks(userId: userId);
       setState(() {
         bookmarks = value.documents;
       });
@@ -58,11 +60,11 @@ class _NewsDetailsState extends State<NewsDetails> {
 
 //add the article data to the bookmarks collection
   Future<void> addBookmark() async {
+    final AuthAPI appwrite = context.read<AuthAPI>();
+    final String userId = appwrite.currentUser.$id;
     try {
       await _database.addBookmark(
-        title: widget.title,
-        url: widget.data,
-      );
+          title: widget.title, url: widget.data, userId: userId);
       const snackbar = SnackBar(content: Text('Added to Bookmarks!'));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
       setState(() {
