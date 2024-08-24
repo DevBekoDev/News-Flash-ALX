@@ -24,7 +24,9 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
     super.initState();
     final AuthAPI appwrite = context.read<AuthAPI>();
     authStatus = appwrite.status;
+    final String userId = appwrite.currentUser.$id;
     loadBookmarks();
+    _database.getBookmarks(userId: userId);
   }
 
   void loadBookmarks() async {
@@ -90,7 +92,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
 
                 return ListTile(
                   title: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
                     child: Column(
                       children: [
                         GestureDetector(
@@ -116,7 +118,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                               )),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 5,
                         )
                       ],
                     ),

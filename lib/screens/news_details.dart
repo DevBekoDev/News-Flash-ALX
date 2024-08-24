@@ -64,7 +64,7 @@ class _NewsDetailsState extends State<NewsDetails> {
     final String userId = appwrite.currentUser.$id;
     try {
       await _database.addBookmark(
-          title: widget.title, url: widget.data, userId: userId);
+          title: widget.title, url: widget.data, user_id: userId);
       const snackbar = SnackBar(content: Text('Added to Bookmarks!'));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
       setState(() {

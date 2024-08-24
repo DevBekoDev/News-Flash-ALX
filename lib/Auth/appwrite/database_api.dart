@@ -27,7 +27,7 @@ class DatabaseAPI {
       final response = await databases.listDocuments(
         databaseId: APPWRITE_DATABASE_ID,
         collectionId: COLLECTION_BOOKMARKS_ID,
-        queries: [Query.equal('userId', userId)], // Filter by userId
+        queries: [Query.equal('user_id', userId)], // Filter by userId
       );
       return response;
     } catch (e) {
@@ -37,7 +37,11 @@ class DatabaseAPI {
   }
 
   Future<Document> addBookmark(
-      {required String title, required String url, required String userId}) {
+      // ignore: non_constant_identifier_names
+      {required String title,
+      required String url,
+      // ignore: non_constant_identifier_names
+      required String user_id}) {
     return databases.createDocument(
         databaseId: APPWRITE_DATABASE_ID,
         collectionId: COLLECTION_BOOKMARKS_ID,

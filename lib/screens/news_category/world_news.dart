@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:news_flash/comp/NewsList.dart';
+import 'package:news_flash/constants/constants.dart';
 import 'package:news_flash/models/news_model.dart';
 
 class WorldNews extends StatefulWidget {
@@ -14,10 +15,10 @@ class WorldNews extends StatefulWidget {
 }
 
 class _WorldNewsState extends State<WorldNews> {
-  String apikey = 'ceb3e3f4817a4a009a21265e2caae267';
   NewsViewModel newsViewModel = NewsViewModel();
   Future<NewsModel> fetchNewsHeadlines() async {
-    String url = 'https://newsapi.org/v2/everything?q=general&apikey=$apikey';
+    String url =
+        'https://newsapi.org/v2/everything?q=general&apikey=$NEWS_API_KEY';
 
     final response = await http.get(Uri.parse(url));
 
