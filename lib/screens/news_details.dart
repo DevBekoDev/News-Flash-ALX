@@ -111,11 +111,13 @@ class _NewsDetailsState extends State<NewsDetails> {
 
 //check if article title is already saved in the bookmarks
   Future<bool> checkIfTitleExists(String title) async {
+    final AuthAPI appwrite = context.read<AuthAPI>();
+    final String userId = appwrite.currentUser.$id;
     try {
       final response = await _database.databases.listDocuments(
         databaseId: APPWRITE_DATABASE_ID,
         collectionId: COLLECTION_BOOKMARKS_ID,
-        queries: [Query.equal('title', title)],
+        queries: [Query.equal('title', title), Query.equal('userId', userId)],
       );
       if (response.documents.isNotEmpty) {
         return true;

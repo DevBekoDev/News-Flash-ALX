@@ -31,7 +31,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
     final AuthAPI appwrite = context.read<AuthAPI>();
     final String userId = appwrite.currentUser.$id;
     try {
-      final value = await _database.getBookmarks();
+      final value = await _database.getBookmarks(userId: userId);
       setState(() {
         bookmarks = value.documents;
       });
