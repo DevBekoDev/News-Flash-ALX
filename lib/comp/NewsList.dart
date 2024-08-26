@@ -17,6 +17,7 @@ class NewsList extends StatelessWidget {
           url: article.url.toString(),
           publishedAt: DateTime.parse(article.publishedAt.toString()),
           imageUrl: article.urlToImage,
+          onBookmarkChanged: () {},
         );
       },
     );

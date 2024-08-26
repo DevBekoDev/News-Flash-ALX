@@ -10,6 +10,7 @@ class NewsCard extends StatelessWidget {
   final String? imageUrl;
   final String url;
   final DateTime publishedAt;
+  final VoidCallback? onBookmarkChanged; // Make this optional
 
   const NewsCard({
     super.key,
@@ -17,6 +18,7 @@ class NewsCard extends StatelessWidget {
     required this.url,
     required this.publishedAt,
     this.imageUrl,
+    this.onBookmarkChanged, // Allow this to be null
   });
 
   @override
@@ -28,7 +30,12 @@ class NewsCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (_) {
-          return NewsDetails(data: url, title: title);
+          return NewsDetails(
+            data: url,
+            title: title,
+            onBookmarkChanged:
+                onBookmarkChanged ?? () {}, // Default to empty function
+          );
         }));
       },
       child: Container(

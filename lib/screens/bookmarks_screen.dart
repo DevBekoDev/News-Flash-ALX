@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
-import 'package:flutter/material.dart';
 import 'package:news_flash/Auth/appwrite/auth_api.dart';
 import 'package:news_flash/Auth/appwrite/database_api.dart';
 import 'package:news_flash/screens/news_details.dart';
@@ -15,7 +15,6 @@ class BookmarksScreen extends StatefulWidget {
 
 class _BookmarksScreenState extends State<BookmarksScreen> {
   final _database = DatabaseAPI();
-
   List<Document>? bookmarks = [];
   AuthStatus authStatus = AuthStatus.uninitialized;
 
@@ -24,12 +23,10 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
     super.initState();
     final AuthAPI appwrite = context.read<AuthAPI>();
     authStatus = appwrite.status;
-    final String userId = appwrite.currentUser.$id;
-    loadBookmarks();
-    _database.getBookmarks(userId: userId);
+    loadBookmarks(); // Fetch bookmarks once
   }
 
-  void loadBookmarks() async {
+  Future<void> loadBookmarks() async {
     final AuthAPI appwrite = context.read<AuthAPI>();
     final String userId = appwrite.currentUser.$id;
     try {
@@ -42,11 +39,10 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
     }
   }
 
-  // Delete the article data from the bookmarks collection
   Future<void> deleteBookmark(String id) async {
     try {
       await _database.deleteBookmark(id: id);
-      loadBookmarks();
+      await loadBookmarks(); // Refresh bookmarks after deletion
     } on AppwriteException catch (e) {
       showAlert(title: 'Error', text: e.message.toString());
     }
@@ -80,9 +76,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
         backgroundColor: const Color.fromARGB(255, 199, 193, 174),
       ),
       body: bookmarks == null || bookmarks!.isEmpty
-          ? const Center(
-              child: Text("No Bookmarked Articles Found!"),
-            )
+          ? const Center(child: Text("No Bookmarked Articles Found!"))
           : ListView.builder(
               itemCount: bookmarks!.length,
               itemBuilder: (context, index) {
@@ -92,34 +86,44 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
 
                 return ListTile(
                   title: Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+                    padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (_) {
-                              return NewsDetails(data: url, title: title);
-                            }));
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => NewsDetails(
+                                  data: url,
+                                  title: title,
+                                  onBookmarkChanged: () async {
+                                    await loadBookmarks();
+                                  },
+                                ),
+                              ),
+                            );
                           },
                           child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color.fromARGB(255, 199, 193, 174)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  title,
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color.fromARGB(255, 199, 193, 174),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                title,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                         ),
                         const SizedBox(
-                          height: 5,
-                        )
+                          height: 20,
+                        ),
                       ],
                     ),
                   ),

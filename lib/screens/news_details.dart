@@ -7,11 +7,17 @@ import 'package:news_flash/constants/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-// ignore: must_be_immutable
 class NewsDetails extends StatefulWidget {
-  String data;
-  String title;
-  NewsDetails({super.key, required this.data, required this.title});
+  final String data;
+  final String title;
+  final VoidCallback onBookmarkChanged;
+
+  NewsDetails({
+    Key? key,
+    required this.data,
+    required this.title,
+    required this.onBookmarkChanged,
+  }) : super(key: key);
 
   @override
   State<NewsDetails> createState() => _NewsDetailsState();
@@ -58,7 +64,7 @@ class _NewsDetailsState extends State<NewsDetails> {
     });
   }
 
-//add the article data to the bookmarks collection
+// Add the article data to the bookmarks collection
   Future<void> addBookmark() async {
     final AuthAPI appwrite = context.read<AuthAPI>();
     final String userId = appwrite.currentUser.$id;
@@ -70,19 +76,21 @@ class _NewsDetailsState extends State<NewsDetails> {
       setState(() {
         articleSaved = true;
       });
+      widget.onBookmarkChanged();
       loadBookmarks();
     } on AppwriteException catch (e) {
       showAlert(title: 'Error', text: e.message.toString());
     }
   }
 
-//delete the article data from the bookmarks collection
+// Delete the article data from the bookmarks collection
   Future<void> deleteBookmark(String id) async {
     try {
       await _database.deleteBookmark(id: id);
       setState(() {
         articleSaved = false;
       });
+      widget.onBookmarkChanged();
       loadBookmarks();
     } on AppwriteException catch (e) {
       showAlert(title: 'Error', text: e.message.toString());
@@ -109,7 +117,7 @@ class _NewsDetailsState extends State<NewsDetails> {
     );
   }
 
-//check if article title is already saved in the bookmarks
+// Check if article title is already saved in the bookmarks
   Future<bool> checkIfTitleExists(String title) async {
     final AuthAPI appwrite = context.read<AuthAPI>();
     final String userId = appwrite.currentUser.$id;

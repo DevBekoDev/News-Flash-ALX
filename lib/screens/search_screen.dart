@@ -14,6 +14,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _controller = TextEditingController();
   List<dynamic> _searchResults = [];
+  Set<String> _bookmarkedTitles = {}; // To track bookmarked articles by title
 
   void _fetchData(String query) async {
     String apikey = 'ceb3e3f4817a4a009a21265e2caae267';
@@ -31,6 +32,32 @@ class _SearchScreenState extends State<SearchScreen> {
         _searchResults = [];
       });
     }
+  }
+
+  void _onBookmarkChanged(String title) {
+    setState(() {
+      if (_bookmarkedTitles.contains(title)) {
+        _bookmarkedTitles.remove(title);
+        // Call a function to remove the bookmark from the database
+        _removeBookmark(title);
+      } else {
+        _bookmarkedTitles.add(title);
+        // Call a function to add the bookmark to the database
+        _addBookmark(title);
+      }
+    });
+  }
+
+  void _addBookmark(String title) {
+    // Logic to add the bookmark to the database
+    // For example, call a service that interacts with the database API
+    print('Bookmark added: $title');
+  }
+
+  void _removeBookmark(String title) {
+    // Logic to remove the bookmark from the database
+    // For example, call a service that interacts with the database API
+    print('Bookmark removed: $title');
   }
 
   @override
@@ -67,46 +94,59 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             const SizedBox(height: 12),
             Expanded(
-                child: _searchResults.isNotEmpty
-                    ? ListView.builder(
-                        itemCount: _searchResults.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              ListTile(
-                                title: Text(
-                                  _searchResults[index]['title'].toString(),
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                                onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (_) {
-                                    return NewsDetails(
-                                        data: _searchResults[index]['url'],
-                                        title: _searchResults[index]['title']);
-                                  }));
-                                },
+              child: _searchResults.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: _searchResults.length,
+                      itemBuilder: (context, index) {
+                        final title = _searchResults[index]['title'].toString();
+                        return Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                title,
+                                style: const TextStyle(fontSize: 18),
                               ),
-                              const SizedBox(
-                                width: 430,
-                                child: Divider(
-                                  height: 0,
-                                  thickness: 1,
-                                  color: Colors.black,
+                              trailing: IconButton(
+                                icon: Icon(
+                                  _bookmarkedTitles.contains(title)
+                                      ? Icons.bookmark
+                                      : Icons.bookmark_outline,
                                 ),
-                              )
-                            ],
-                          );
-                        },
-                      )
-                    : const SizedBox(
-                        child: Center(
-                          child: Text(
-                            'Try Something New 😁',
-                            style: TextStyle(fontSize: 24),
-                          ),
+                                onPressed: () => _onBookmarkChanged(title),
+                              ),
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (_) {
+                                  return NewsDetails(
+                                    data: _searchResults[index]['url'],
+                                    title: title,
+                                    onBookmarkChanged: () =>
+                                        _onBookmarkChanged(title),
+                                  );
+                                }));
+                              },
+                            ),
+                            const SizedBox(
+                              width: 430,
+                              child: Divider(
+                                height: 0,
+                                thickness: 1,
+                                color: Colors.black,
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                    )
+                  : const SizedBox(
+                      child: Center(
+                        child: Text(
+                          'Try Something New 😁',
+                          style: TextStyle(fontSize: 24),
                         ),
-                      )),
+                      ),
+                    ),
+            ),
           ],
         ),
       ),
