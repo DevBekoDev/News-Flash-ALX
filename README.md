@@ -58,8 +58,9 @@ News Flash is a Flutter application that provides users with the latest news fro
    flutter run
 
 ## Usage
-  - Search Screen: Type in keywords to search for news articles. The results are displayed in a list.
-  - Bookmarks Screen: View and manage bookmarked articles. Articles can be removed from the bookmarks list.
+  - Home Screen: Displays the latest news headlines.
+  - Search Screen: Allows users to search for specific news articles.
+  - Bookmarks Screen: View and manage bookmarked articles.
   - News Details Screen: View detailed content of an article in a web view. Toggle the bookmark status from this screen.
 
 ## License
@@ -69,3 +70,6 @@ News Flash is a Flutter application that provides users with the latest news fro
   - For any inquiries or feedback, please reach out to:
     * Email: abubakr.ezalden.nasir@gmail.com
     * Github: [Abubakr Nasir](https://github.com/DevBekoDev)
+   
+## Portfolio Project
+   - This project is a portfolio project for ALX Software Engineering program and serves as my graduation project.
