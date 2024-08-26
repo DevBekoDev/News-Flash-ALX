@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_flash/Auth/appwrite/auth_api.dart';
+import 'package:news_flash/Auth/appwrite/change_language_provider.dart';
 import 'package:provider/provider.dart';
-
-String NEWS_LANGUAGE = 'en'; // Default language
 
 class ChangeLanguageScreen extends StatefulWidget {
   const ChangeLanguageScreen({Key? key}) : super(key: key);
@@ -22,9 +21,6 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
     'Arabic': 'ar',
   };
 
-  // Variable to hold the selected language code
-  String selectedLanguage = NEWS_LANGUAGE;
-
   @override
   void initState() {
     super.initState();
@@ -34,35 +30,39 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
   // Load user preferences from Appwrite
   void _loadUserPreference() async {
     final AuthAPI authAPI = context.read<AuthAPI>();
+    final newsLanguageProvider = context.read<NewsLanguageProvider>();
 
     // Fetch user preferences
     final preferences = await authAPI.getUserPreferences();
 
     if (preferences.data.containsKey('lang')) {
-      setState(() {
-        selectedLanguage = preferences.data['lang'];
-        NEWS_LANGUAGE = selectedLanguage;
-      });
+      newsLanguageProvider.setNewsLanguage(preferences.data['lang']);
     } else {
-      setState(() {
-        selectedLanguage = 'en';
-        NEWS_LANGUAGE = selectedLanguage;
-      });
+      newsLanguageProvider
+          .setNewsLanguage('en'); // Default to 'en' if no preference is set
     }
   }
 
   // Save user preferences to Appwrite
   void _saveUserPreference(String language) async {
     final AuthAPI authAPI = context.read<AuthAPI>();
+    final newsLanguageProvider = context.read<NewsLanguageProvider>();
 
     // Update the user's language preference
     await authAPI.updatePreferences(lang: language);
+
+    // Update the provider
+    newsLanguageProvider.setNewsLanguage(language);
+
+    // Show a snackbar to indicate that the preferences have been updated
     const snackbar = SnackBar(content: Text('Language preference updated!'));
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
   @override
   Widget build(BuildContext context) {
+    final newsLanguageProvider = context.watch<NewsLanguageProvider>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Change News Language'),
@@ -72,7 +72,6 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            // Header
             const Text(
               'Select News Language:',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -84,7 +83,8 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                 mainAxisSpacing: 10.0,
                 crossAxisSpacing: 10.0,
                 children: languages.keys.map((language) {
-                  return _buildLanguageOption(language);
+                  return _buildLanguageOption(
+                      language, newsLanguageProvider.newsLanguage);
                 }).toList(),
               ),
             ),
@@ -94,23 +94,19 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
     );
   }
 
-  Widget _buildLanguageOption(String language) {
+  Widget _buildLanguageOption(String language, String currentLanguage) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          selectedLanguage = languages[language]!;
-          NEWS_LANGUAGE = selectedLanguage;
-          _saveUserPreference(selectedLanguage);
-        });
+        _saveUserPreference(languages[language]!);
       },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: selectedLanguage == languages[language]
+          color: currentLanguage == languages[language]
               ? Colors.blueAccent.withOpacity(0.2)
               : Colors.grey.withOpacity(0.2),
           border: Border.all(
-            color: selectedLanguage == languages[language]
+            color: currentLanguage == languages[language]
                 ? Colors.blueAccent
                 : Colors.grey,
             width: 2.0,
@@ -122,13 +118,11 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
             children: [
               Radio<String>(
                 value: languages[language]!,
-                groupValue: selectedLanguage,
+                groupValue: currentLanguage,
                 onChanged: (String? value) {
-                  setState(() {
-                    selectedLanguage = value!;
-                    NEWS_LANGUAGE = selectedLanguage;
-                    _saveUserPreference(selectedLanguage);
-                  });
+                  if (value != null) {
+                    _saveUserPreference(value);
+                  }
                 },
               ),
               Text(

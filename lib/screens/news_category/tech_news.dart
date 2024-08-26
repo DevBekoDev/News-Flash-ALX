@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:news_flash/Auth/appwrite/change_language_provider.dart';
 
 import 'package:news_flash/comp/NewsList.dart';
 import 'package:news_flash/constants/constants.dart';
 import 'package:news_flash/models/news_model.dart';
+import 'package:provider/provider.dart';
 
 class TechNews extends StatefulWidget {
   const TechNews({super.key});
@@ -16,9 +18,9 @@ class TechNews extends StatefulWidget {
 
 class _TechNewsState extends State<TechNews> {
   NewsViewModel newsViewModel = NewsViewModel();
-  Future<NewsModel> fetchNewsHeadlines() async {
+  Future<NewsModel> fetchNewsHeadlines(String language) async {
     String url =
-        'https://newsapi.org/v2/everything?q=tech&language=$NEWS_LANGUAGE&apikey=$NEWS_API_KEY';
+        'https://newsapi.org/v2/everything?q=tech&language=$language&apikey=$NEWS_API_KEY';
 
     final response = await http.get(Uri.parse(url));
 
@@ -31,8 +33,9 @@ class _TechNewsState extends State<TechNews> {
 
   @override
   Widget build(BuildContext context) {
+    final newsLanguageProvider = context.watch<NewsLanguageProvider>();
     return FutureBuilder<NewsModel>(
-      future: fetchNewsHeadlines(),
+      future: fetchNewsHeadlines(newsLanguageProvider.newsLanguage),
       builder: (BuildContext context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
