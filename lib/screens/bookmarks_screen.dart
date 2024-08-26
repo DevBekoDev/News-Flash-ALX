@@ -86,7 +86,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
 
                 return ListTile(
                   title: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(right: 8, left: 8),
                     child: Column(
                       children: [
                         GestureDetector(
@@ -105,6 +105,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                             );
                           },
                           child: Container(
+                            width: double.infinity,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: const Color.fromARGB(255, 199, 193, 174),
@@ -122,7 +123,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                           ),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                       ],
                     ),

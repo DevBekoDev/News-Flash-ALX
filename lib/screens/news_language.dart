@@ -64,8 +64,9 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
     final newsLanguageProvider = context.watch<NewsLanguageProvider>();
 
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 237, 234, 223),
       appBar: AppBar(
-        title: const Text('Change News Language'),
+        title: const Center(child: Text('Change News Language')),
         backgroundColor: const Color.fromARGB(255, 199, 193, 174),
       ),
       body: Padding(

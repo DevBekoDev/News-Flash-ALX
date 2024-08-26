@@ -73,8 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icon(CupertinoIcons.lab_flask_solid), label: 'Science'),
               BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.device_laptop), label: 'Tech'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.settings), label: 'Settings')
+              BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Settings')
             ],
           )),
       body: _childeren[currentIndex],

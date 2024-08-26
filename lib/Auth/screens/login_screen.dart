@@ -99,13 +99,15 @@ class _LoginScreenState extends State<LoginScreen> {
   IconData hide = CupertinoIcons.eye_slash;
   IconData show = CupertinoIcons.eye;
 
-  bool visible = false;
+  bool visible = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 239, 234, 216),
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: const Color.fromARGB(255, 239, 234, 216),
       ),
       body: Center(
         child: Padding(
@@ -121,9 +123,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: InputDecoration(
                       suffixIcon: const Icon(Icons.email),
                       labelText: 'Email',
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(color: Colors.black)),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 239, 234, 216))),
                     ),
                     keyboardType: TextInputType.emailAddress,
                     validator: _validateEmail,
@@ -140,9 +146,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           icon: visible ? Icon(show) : Icon(hide)),
                       labelText: 'Password',
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.black),
+                          borderRadius: BorderRadius.circular(8)),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 239, 234, 216))),
                     ),
                     obscureText: visible,
                     validator: _validatePassword,

@@ -40,7 +40,7 @@ class _SportsNewsState extends State<SportsNews> {
           return const Center(
             child: SpinKitCircle(
               size: 50,
-              color: Colors.blue,
+              color: Color.fromARGB(255, 199, 193, 174),
             ),
           );
         } else if (snapshot.connectionState == ConnectionState.done) {
