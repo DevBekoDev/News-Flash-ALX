@@ -64,7 +64,7 @@ News Flash is a Flutter application that provides users with the latest news fro
   - News Details Screen: View detailed content of an article in a web view. Toggle the bookmark status from this screen.
 
 ## License
-  - This project is licensed under the MIT License. See the [License] file for details.
+  - This project is licensed under the MIT License. See the [License](doc:LICENSE.md) file for details.
 
 ## Contact
   - For any inquiries or feedback, please reach out to:
