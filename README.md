@@ -32,7 +32,7 @@ News Flash is a Flutter application that provides users with the latest news fro
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/news_flash.git
+   git clone https://github.com/DevBekoDev/News-Flash-ALX.git
    cd news_flash
 
 2. **Install Dependencies**
