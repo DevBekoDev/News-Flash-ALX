@@ -1,3 +1,4 @@
+import 'package:appwrite/models.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_flash/Auth/appwrite/auth_api.dart';
@@ -8,6 +9,7 @@ import 'package:news_flash/models/news_model.dart';
 import 'package:news_flash/screens/bookmarks_screen.dart';
 import 'package:news_flash/screens/home_screen.dart';
 import 'package:appwrite/appwrite.dart';
+import 'package:news_flash/screens/spalsh_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -44,19 +46,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final value = context.watch<AuthAPI>().status;
-    return MaterialApp(
-        routes: {
-          '/login': (context) => const LoginScreen(),
-          '/signup': (context) => const SignupScreen(),
-          '/home': (context) => const HomeScreen(),
-        },
-        debugShowCheckedModeBanner: false,
-        home: value == AuthStatus.uninitialized
-            ? const Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              )
-            : value == AuthStatus.authenticated
-                ? const HomeScreen()
-                : const LoginScreen());
+    return MaterialApp(routes: {
+      '/login': (context) => const LoginScreen(),
+      '/signup': (context) => const SignupScreen(),
+      '/home': (context) => const HomeScreen(),
+    }, debugShowCheckedModeBanner: false, home: const SplashScreen());
   }
 }
