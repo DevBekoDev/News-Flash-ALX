@@ -31,22 +31,43 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Client client = Client();
 
-  // This widget is the root of your application.
-
   NewsViewModel newsViewModel = NewsViewModel();
   int currentIndex = 0;
-  void onTabTapped(int index) {
-    setState(() {
-      currentIndex = index;
-    });
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAuthenticationStatus(); // Call the function to check authentication status with a delay
+  }
+
+  void _checkAuthenticationStatus() async {
+    // Delay for 3 seconds to show the splash screen
+    await Future.delayed(const Duration(seconds: 3));
+
+    final AuthAPI authAPI = context.read<AuthAPI>();
+    if (authAPI.status == AuthStatus.authenticated) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(routes: {
-      '/login': (context) => const LoginScreen(),
-      '/signup': (context) => const SignupScreen(),
-      '/home': (context) => const HomeScreen(),
-    }, debugShowCheckedModeBanner: false, home: const SplashScreen());
+    return MaterialApp(
+      routes: {
+        '/login': (context) => const LoginScreen(),
+        '/signup': (context) => const SignupScreen(),
+        '/home': (context) => const HomeScreen(),
+      },
+      debugShowCheckedModeBanner: false,
+      home: const SplashScreen(),
+    );
   }
 }
