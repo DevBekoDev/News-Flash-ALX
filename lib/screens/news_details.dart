@@ -157,6 +157,9 @@ class _NewsDetailsState extends State<NewsDetails> {
                         bookmark.data['user_id'] == userId,
                   );
                   deleteBookmark(bookmark.$id);
+                  const snackbar =
+                      SnackBar(content: Text('Removed from Bookmarks!'));
+                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
                 } catch (e) {
                   showAlert(
                     title: 'Error',

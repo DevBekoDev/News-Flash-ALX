@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: onTabTapped,
             type: BottomNavigationBarType.shifting,
             selectedItemColor: Colors.black,
-            unselectedItemColor: Colors.grey,
+            unselectedItemColor: Colors.white54,
             iconSize: 25,
             backgroundColor: const Color.fromARGB(255, 199, 193, 174),
             showSelectedLabels: false,
