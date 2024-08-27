@@ -37,6 +37,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 237, 234, 223),
       appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 50, top: 10),
+          child: Center(
+            child: Image.asset('lib/images/logo_final.png',
+                width: 200, height: 220),
+          ),
+        ),
         backgroundColor: const Color.fromARGB(255, 199, 193, 174),
         actions: [
           IconButton(
