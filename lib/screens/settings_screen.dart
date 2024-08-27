@@ -91,7 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       width: 20,
                     ),
                     Text(
-                      "Search Language",
+                      "News Language",
                       style: TextStyle(fontSize: 30),
                     )
                   ],
