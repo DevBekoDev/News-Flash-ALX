@@ -5,6 +5,7 @@ import 'package:news_flash/Auth/appwrite/change_language_provider.dart';
 import 'package:news_flash/Auth/screens/login_screen.dart';
 import 'package:news_flash/Auth/screens/signup_screen.dart';
 import 'package:news_flash/models/news_model.dart';
+import 'package:news_flash/screens/bookmarks_screen.dart';
 import 'package:news_flash/screens/home_screen.dart';
 import 'package:appwrite/appwrite.dart';
 import 'package:news_flash/screens/spalsh_screen.dart';
@@ -31,43 +32,50 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Client client = Client();
 
-  NewsViewModel newsViewModel = NewsViewModel();
-  int currentIndex = 0;
-
-  @override
   void initState() {
     super.initState();
-    _checkAuthenticationStatus(); // Call the function to check authentication status with a delay
+
+    // Start a timer to delay the navigation by 3 seconds
+    Future.delayed(const Duration(seconds: 3), () {
+      _checkAuthenticationStatus();
+    });
   }
 
-  void _checkAuthenticationStatus() async {
-    // Delay for 3 seconds to show the splash screen
-    await Future.delayed(const Duration(seconds: 3));
-
+  bool _checkAuthenticationStatus() {
     final AuthAPI authAPI = context.read<AuthAPI>();
     if (authAPI.status == AuthStatus.authenticated) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+      return true;
     } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
+      return false;
     }
+  }
+  // This widget is the root of your application.
+
+  NewsViewModel newsViewModel = NewsViewModel();
+  int currentIndex = 0;
+  void onTabTapped(int index) {
+    setState(() {
+      currentIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final value = context.watch<AuthAPI>().status;
+    final value_1 = _checkAuthenticationStatus();
     return MaterialApp(
-      routes: {
-        '/login': (context) => const LoginScreen(),
-        '/signup': (context) => const SignupScreen(),
-        '/home': (context) => const HomeScreen(),
-      },
-      debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
-    );
+        routes: {
+          '/login': (context) => const LoginScreen(),
+          '/signup': (context) => const SignupScreen(),
+          '/home': (context) => const HomeScreen(),
+        },
+        debugShowCheckedModeBanner: false,
+        home: value == AuthStatus.uninitialized
+            ? const Scaffold(
+                body: SplashScreen(),
+              )
+            : value_1 == true
+                ? const HomeScreen()
+                : const LoginScreen());
   }
 }
