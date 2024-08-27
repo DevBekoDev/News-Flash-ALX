@@ -18,7 +18,6 @@ class _SearchScreenState extends State<SearchScreen> {
   Set<String> _bookmarkedTitles = {}; // To track bookmarked articles by title
 
   void _fetchData(String query) async {
-    String apikey = 'ceb3e3f4817a4a009a21265e2caae267';
     final url =
         'https://newsapi.org/v2/everything?q=$query&apikey=$NEWS_API_KEY';
 
