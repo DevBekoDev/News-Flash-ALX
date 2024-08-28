@@ -19,7 +19,12 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+//show password
+  IconData hide = CupertinoIcons.eye_slash;
+  IconData show = CupertinoIcons.eye;
 
+  bool visible = true;
+  bool visible1 = true;
   // Name validation
   String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
@@ -200,6 +205,13 @@ class _SignupScreenState extends State<SignupScreen> {
                 TextFormField(
                   controller: _passwordController,
                   decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            visible = !visible;
+                          });
+                        },
+                        icon: visible ? Icon(show) : Icon(hide)),
                     labelText: 'Password',
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -209,7 +221,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         borderSide: const BorderSide(
                             color: Color.fromARGB(255, 239, 234, 216))),
                   ),
-                  obscureText: true,
+                  obscureText: visible,
                   validator: _validatePassword,
                 ),
                 const SizedBox(height: 20),
@@ -217,6 +229,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   controller: _confirmPasswordController,
                   decoration: InputDecoration(
                     labelText: 'Confirm Password',
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            visible1 = !visible1;
+                          });
+                        },
+                        icon: visible1 ? Icon(show) : Icon(hide)),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: const BorderSide(color: Colors.black)),
@@ -225,7 +244,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         borderSide: const BorderSide(
                             color: Color.fromARGB(255, 239, 234, 216))),
                   ),
-                  obscureText: true,
+                  obscureText: visible1,
                   validator: _validateConfirmPassword,
                 ),
                 const SizedBox(height: 20),

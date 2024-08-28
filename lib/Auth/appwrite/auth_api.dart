@@ -28,6 +28,7 @@ class AuthAPI extends ChangeNotifier {
   AuthAPI() {
     init();
     loadUser();
+    _checkAuthState();
   }
 
   // Initialize the Appwrite client
@@ -49,6 +50,21 @@ class AuthAPI extends ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  void _checkAuthState() async {
+    try {
+      // Check if user is authenticated from Appwrite
+      final user = await account.get();
+      if (user != null) {
+        _status = AuthStatus.authenticated;
+      } else {
+        _status = AuthStatus.unauthenticated;
+      }
+    } catch (e) {
+      _status = AuthStatus.unauthenticated;
+    }
+    notifyListeners(); // Notify listeners of status change
   }
 
   Future<User> createUser(
@@ -77,18 +93,6 @@ class AuthAPI extends ChangeNotifier {
     }
   }
 
-/*
-  signInWithProvider({required String provider}) async {
-    try {
-      final session = await account.createOAuth2Session(provider: provider);
-      _currentUser = await account.get();
-      _status = AuthStatus.authenticated;
-      return session;
-    } finally {
-      notifyListeners();
-    }
-  }
-*/
   signOut() async {
     try {
       //await account.deleteSession(sessionId: 'current');
