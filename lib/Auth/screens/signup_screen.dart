@@ -156,7 +156,8 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: const Color.fromARGB(255, 237, 234, 223),
+      appBar: AppBar(backgroundColor: const Color.fromARGB(255, 237, 234, 223)),
       body: Padding(
         padding: const EdgeInsets.only(top: 150, right: 40, left: 40),
         child: Column(children: [
@@ -169,9 +170,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   controller: _nameController,
                   decoration: InputDecoration(
                     labelText: 'Name',
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.black)),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 239, 234, 216))),
                   ),
                   validator: _validateName,
                 ),
@@ -180,9 +185,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.black)),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 239, 234, 216))),
                   ),
                   keyboardType: TextInputType.emailAddress,
                   validator: _validateEmail,
@@ -192,9 +201,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   controller: _passwordController,
                   decoration: InputDecoration(
                     labelText: 'Password',
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.black)),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 239, 234, 216))),
                   ),
                   obscureText: true,
                   validator: _validatePassword,
@@ -204,9 +217,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   controller: _confirmPasswordController,
                   decoration: InputDecoration(
                     labelText: 'Confirm Password',
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.black)),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 239, 234, 216))),
                   ),
                   obscureText: true,
                   validator: _validateConfirmPassword,

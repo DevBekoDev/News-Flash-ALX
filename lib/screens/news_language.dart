@@ -66,7 +66,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 237, 234, 223),
       appBar: AppBar(
-        title: const Center(child: Text('Change News Language')),
+        title: const Text('Change News Language'),
         backgroundColor: const Color.fromARGB(255, 199, 193, 174),
       ),
       body: Padding(

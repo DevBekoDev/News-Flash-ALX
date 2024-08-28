@@ -105,8 +105,9 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 237, 234, 223),
       appBar: AppBar(
-        title: const Center(child: Text('Bookmarks')),
+        title: const Text('Bookmarks'),
         backgroundColor: const Color.fromARGB(255, 199, 193, 174),
       ),
       body: bookmarks == null || bookmarks!.isEmpty
