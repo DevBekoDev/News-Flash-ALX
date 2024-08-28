@@ -19,7 +19,7 @@ class ScienceNews extends StatefulWidget {
 class _ScienceNewsState extends State<ScienceNews> {
   Future<NewsModel> fetchNewsHeadlines(String language) async {
     String url =
-        'https://newsapi.org/v2/everything?q=science&language=$language&apikey=$NEWS_API_KEY';
+        'https://newsapi.org/v2/everything?q=health&language=$language&apikey=$NEWS_API_KEY';
 
     final response = await http.get(Uri.parse(url));
 
@@ -40,7 +40,7 @@ class _ScienceNewsState extends State<ScienceNews> {
           return const Center(
             child: SpinKitCircle(
               size: 50,
-              color: Colors.blue,
+              color: Color.fromARGB(255, 199, 193, 174),
             ),
           );
         } else if (snapshot.connectionState == ConnectionState.done) {

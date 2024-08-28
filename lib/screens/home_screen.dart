@@ -37,6 +37,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 237, 234, 223),
       appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 50, top: 10),
+          child: Center(
+            child: Image.asset('lib/images/logo_final.png',
+                width: 200, height: 220),
+          ),
+        ),
         backgroundColor: const Color.fromARGB(255, 199, 193, 174),
         actions: [
           IconButton(
@@ -57,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: onTabTapped,
             type: BottomNavigationBarType.shifting,
             selectedItemColor: Colors.black,
-            unselectedItemColor: Colors.grey,
+            unselectedItemColor: Colors.white54,
             iconSize: 25,
             backgroundColor: const Color.fromARGB(255, 199, 193, 174),
             showSelectedLabels: false,
@@ -73,8 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icon(CupertinoIcons.lab_flask_solid), label: 'Science'),
               BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.device_laptop), label: 'Tech'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.settings), label: 'Settings')
+              BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Settings')
             ],
           )),
       body: _childeren[currentIndex],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:news_flash/constants/constants.dart';
 import 'dart:convert';
 
 import 'package:news_flash/screens/news_details.dart';
@@ -17,8 +18,8 @@ class _SearchScreenState extends State<SearchScreen> {
   Set<String> _bookmarkedTitles = {}; // To track bookmarked articles by title
 
   void _fetchData(String query) async {
-    String apikey = 'ceb3e3f4817a4a009a21265e2caae267';
-    final url = 'https://newsapi.org/v2/everything?q=$query&apikey=$apikey';
+    final url =
+        'https://newsapi.org/v2/everything?q=$query&apikey=$NEWS_API_KEY';
 
     final response = await http.get(Uri.parse(url));
 
@@ -63,8 +64,10 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 237, 234, 223),
       appBar: AppBar(
-        title: const Text('Search Screen'),
+        backgroundColor: const Color.fromARGB(255, 199, 193, 174),
+        title: const Text('Search Articles'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -105,14 +108,6 @@ class _SearchScreenState extends State<SearchScreen> {
                               title: Text(
                                 title,
                                 style: const TextStyle(fontSize: 18),
-                              ),
-                              trailing: IconButton(
-                                icon: Icon(
-                                  _bookmarkedTitles.contains(title)
-                                      ? Icons.bookmark
-                                      : Icons.bookmark_outline,
-                                ),
-                                onPressed: () => _onBookmarkChanged(title),
                               ),
                               onTap: () {
                                 Navigator.push(context,

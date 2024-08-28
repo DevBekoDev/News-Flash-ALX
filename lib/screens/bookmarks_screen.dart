@@ -68,11 +68,46 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
     );
   }
 
+  void _confirmDelete(String id) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Confirm Delete'),
+          content: const Text(
+              'Are you sure you want to remove this article from bookmarks?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('No'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              onPressed: () async {
+                Navigator.pop(context);
+                await deleteBookmark(id);
+              },
+              child: const Text(
+                'Yes',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 237, 234, 223),
       appBar: AppBar(
-        title: const Center(child: Text('Bookmarks')),
+        title: const Text('Bookmarks'),
         backgroundColor: const Color.fromARGB(255, 199, 193, 174),
       ),
       body: bookmarks == null || bookmarks!.isEmpty
@@ -80,13 +115,14 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
           : ListView.builder(
               itemCount: bookmarks!.length,
               itemBuilder: (context, index) {
-                // Extract the title from each bookmark
+                // Extract the title and id from each bookmark
                 final title = bookmarks![index].data['title'];
                 final url = bookmarks![index].data['url'];
+                final id = bookmarks![index].$id;
 
                 return ListTile(
                   title: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(right: 8, left: 8),
                     child: Column(
                       children: [
                         GestureDetector(
@@ -105,24 +141,46 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                             );
                           },
                           child: Container(
+                            width: double.infinity,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: const Color.fromARGB(255, 199, 193, 174),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                title,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      title,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 241, 88, 77),
+                                      shape: const CircleBorder(),
+                                      padding: const EdgeInsets.all(8),
+                                    ),
+                                    child: const Icon(Icons.delete,
+                                        color: Colors.white),
+                                    onPressed: () {
+                                      _confirmDelete(id); //
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                       ],
                     ),

@@ -1,3 +1,4 @@
+import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:news_flash/Auth/appwrite/auth_api.dart';
 import 'package:news_flash/Auth/screens/login_screen.dart';
@@ -13,7 +14,26 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  //sign out method
+  // Variable to store the user's name
+  String userName = 'Loading...';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserName();
+  }
+
+  // Method to fetch and set the user's name
+  Future<void> fetchUserName() async {
+    final AuthAPI appwrite = context.read<AuthAPI>();
+    String user = await appwrite.username!;
+
+    setState(() {
+      userName = user;
+    });
+  }
+
+  // Sign out method
   signOut() {
     final AuthAPI appwrite = context.read<AuthAPI>();
     appwrite.signOut();
@@ -26,6 +46,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: const EdgeInsets.all(30),
         child: Column(
           children: [
+            Container(
+              height: 60,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 189, 179, 144),
+                border:
+                    Border.all(color: const Color.fromARGB(255, 76, 58, 58)),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    '👤',
+                    style: TextStyle(fontSize: 30),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    userName,
+                    style: const TextStyle(fontSize: 30),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -91,7 +141,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       width: 20,
                     ),
                     Text(
-                      "Search Language",
+                      "News Language",
                       style: TextStyle(fontSize: 30),
                     )
                   ],

@@ -65,7 +65,7 @@ class NewsCard extends StatelessWidget {
                   width: width * .9,
                   fit: BoxFit.cover,
                   placeholder: (context, url) => const SpinKitCircle(
-                    color: Colors.amber,
+                    color: Color.fromARGB(255, 239, 234, 216),
                     size: 50,
                   ),
                   errorWidget: (context, url, error) => const Icon(

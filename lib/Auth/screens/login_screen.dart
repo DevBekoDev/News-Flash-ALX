@@ -34,8 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
     if (value == null || value.isEmpty) {
       return 'Please enter your password';
     }
-    if (value.length < 6) {
-      return 'Password must be at least 6 characters';
+    if (value.length < 8) {
+      return 'Password must be at least 8 characters';
     }
     return null;
   }
@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
     } on AppwriteException catch (e) {
       Navigator.pop(context);
       showAlert(title: 'Login failed', text: e.message.toString());
@@ -99,13 +99,15 @@ class _LoginScreenState extends State<LoginScreen> {
   IconData hide = CupertinoIcons.eye_slash;
   IconData show = CupertinoIcons.eye;
 
-  bool visible = false;
+  bool visible = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 237, 234, 223),
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: const Color.fromARGB(255, 237, 234, 223),
       ),
       body: Center(
         child: Padding(
@@ -121,9 +123,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: InputDecoration(
                       suffixIcon: const Icon(Icons.email),
                       labelText: 'Email',
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(color: Colors.black)),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 239, 234, 216))),
                     ),
                     keyboardType: TextInputType.emailAddress,
                     validator: _validateEmail,
@@ -140,9 +146,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           icon: visible ? Icon(show) : Icon(hide)),
                       labelText: 'Password',
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.black),
+                          borderRadius: BorderRadius.circular(8)),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 239, 234, 216))),
                     ),
                     obscureText: visible,
                     validator: _validatePassword,

@@ -5,9 +5,9 @@ import 'package:news_flash/Auth/appwrite/change_language_provider.dart';
 import 'package:news_flash/Auth/screens/login_screen.dart';
 import 'package:news_flash/Auth/screens/signup_screen.dart';
 import 'package:news_flash/models/news_model.dart';
-import 'package:news_flash/screens/bookmarks_screen.dart';
 import 'package:news_flash/screens/home_screen.dart';
 import 'package:appwrite/appwrite.dart';
+import 'package:news_flash/screens/spalsh_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -31,6 +31,23 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Client client = Client();
 
+  void initState() {
+    super.initState();
+
+    // Start a timer to delay the navigation by 3 seconds
+    Future.delayed(const Duration(seconds: 3), () {
+      _checkAuthenticationStatus();
+    });
+  }
+
+  bool _checkAuthenticationStatus() {
+    final AuthAPI authAPI = context.read<AuthAPI>();
+    if (authAPI.status == AuthStatus.authenticated) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   // This widget is the root of your application.
 
   NewsViewModel newsViewModel = NewsViewModel();
@@ -44,9 +61,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final value = context.watch<AuthAPI>().status;
+    final value_1 = _checkAuthenticationStatus();
     return MaterialApp(
         routes: {
-          // When navigating to the "/second" route, build the SecondScreen widget.
           '/login': (context) => const LoginScreen(),
           '/signup': (context) => const SignupScreen(),
           '/home': (context) => const HomeScreen(),
@@ -54,9 +71,9 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         home: value == AuthStatus.uninitialized
             ? const Scaffold(
-                body: Center(child: CircularProgressIndicator()),
+                body: SplashScreen(),
               )
-            : value == AuthStatus.authenticated
+            : value_1 == true
                 ? const HomeScreen()
                 : const LoginScreen());
   }
