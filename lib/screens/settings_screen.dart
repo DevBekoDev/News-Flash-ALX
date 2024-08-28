@@ -67,7 +67,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     width: 20,
                   ),
                   Text(
-                    userName, // Display the user's name here
+                    userName,
                     style: const TextStyle(fontSize: 30),
                   ),
                 ],
